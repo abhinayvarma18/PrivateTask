@@ -42,6 +42,7 @@ class IMHMainViewController: UIViewController {
     
     func drawMarker(_ latitude:CLLocationDegrees, _ longitude: CLLocationDegrees) {
         mapView.clear()
+        destinationMarker = GMSMarker()
         destinationMarker.position = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
         destinationMarker.title = "latitude:\(latitude) and longitude:\(longitude)"
         destinationMarker.snippet = "latitude:\(latitude) and longitude:\(longitude)"

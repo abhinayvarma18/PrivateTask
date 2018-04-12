@@ -8,7 +8,8 @@
 
 import UIKit
 import CoreData
-
+import Fabric
+import Crashlytics
 import GooglePlaces
 import GoogleMaps
 
@@ -21,6 +22,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         GMSServices.provideAPIKey("AIzaSyDROovJ-0JfbeiWI4B_l1ZIX9WrA6Zt4JM")
         GMSPlacesClient.provideAPIKey("AIzaSyDROovJ-0JfbeiWI4B_l1ZIX9WrA6Zt4JM")
+        Fabric.with([Crashlytics.self])
         // Override point for customization after application launch.
         return true
     }

@@ -6,6 +6,8 @@ target 'IamHereTask' do
   use_frameworks!
   pod 'GoogleMaps'
   pod 'GooglePlaces'
+  pod 'Fabric'
+  pod 'Crashlytics'
   # Pods for IamHereTask
 
   target 'IamHereTaskTests' do

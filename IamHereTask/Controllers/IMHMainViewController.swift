@@ -144,3 +144,9 @@ extension IMHMainViewController: CLLocationManagerDelegate,GMSMapViewDelegate {
     
 }
 
+//let customMarker = CustomAnnotationView(frame: CGRect(x: 0, y: 0, width: customMarkerWidth, height: customMarkerHeight), image: img, borderColor: UIColor.white, tag: customMarkerView.tag)
+
+//marker.iconView = customMarker
+
+
+

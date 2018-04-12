@@ -18,6 +18,7 @@
 		EE20AD2F207B8B8F00950AA2 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EE20AD2D207B8B8F00950AA2 /* LaunchScreen.storyboard */; };
 		EE20AD3A207B8B8F00950AA2 /* IamHereTaskTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE20AD39207B8B8F00950AA2 /* IamHereTaskTests.swift */; };
 		EE20AD45207B8B8F00950AA2 /* IamHereTaskUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE20AD44207B8B8F00950AA2 /* IamHereTaskUITests.swift */; };
+		EE20AD53207F4C2200950AA2 /* AppConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE20AD52207F4C2200950AA2 /* AppConstants.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -60,6 +61,7 @@
 		EE20AD40207B8B8F00950AA2 /* IamHereTaskUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = IamHereTaskUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		EE20AD44207B8B8F00950AA2 /* IamHereTaskUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IamHereTaskUITests.swift; sourceTree = "<group>"; };
 		EE20AD46207B8B8F00950AA2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		EE20AD52207F4C2200950AA2 /* AppConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppConstants.swift; sourceTree = "<group>"; };
 		F52D88CA52D4D6BA643A7A33 /* Pods-IamHereTaskTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-IamHereTaskTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-IamHereTaskTests/Pods-IamHereTaskTests.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -139,6 +141,7 @@
 		EE20AD20207B8B8F00950AA2 /* IamHereTask */ = {
 			isa = PBXGroup;
 			children = (
+				EE20AD52207F4C2200950AA2 /* AppConstants.swift */,
 				EE20AD21207B8B8F00950AA2 /* AppDelegate.swift */,
 				EE20AD23207B8B8F00950AA2 /* IMHMainViewController.swift */,
 				EE20AD25207B8B8F00950AA2 /* Main.storyboard */,
@@ -452,6 +455,7 @@
 				EE20AD2A207B8B8F00950AA2 /* IamHereTask.xcdatamodeld in Sources */,
 				EE20AD24207B8B8F00950AA2 /* IMHMainViewController.swift in Sources */,
 				EE20AD22207B8B8F00950AA2 /* AppDelegate.swift in Sources */,
+				EE20AD53207F4C2200950AA2 /* AppConstants.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

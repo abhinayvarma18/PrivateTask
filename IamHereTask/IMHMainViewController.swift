@@ -14,8 +14,16 @@ import GooglePlaces
 class IMHMainViewController: UIViewController {
     @IBOutlet weak var mapView: GMSMapView!
     var locationManager = CLLocationManager()
-    var destinationMarker:GMSMarker!
+    lazy var destinationMarker:GMSMarker = {
+        let destination = GMSMarker()
+        let image = UIImage(named:mapIconImageName)
+        destination.icon = image
+        destination.map = self.mapView
+        destination.appearAnimation = GMSMarkerAnimation.none
+      return destination
+    }()
     var mapGesture:Bool = false
+    let uilgr = UILongPressGestureRecognizer(target: self, action: #selector(addAnnotation))
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -23,10 +31,36 @@ class IMHMainViewController: UIViewController {
         //Map initiation code
         self.mapView?.delegate = self
         
+        self.mapView.isUserInteractionEnabled = true
+        
+        uilgr.minimumPressDuration = 2.0
+        
+        //self.mapView.add (uilgr)
+        
+        //IOS 9
+        self.mapView.addGestureRecognizer(uilgr)
+        
+        
+        
         //Location Manager code to fetch current location
         self.locationManager.delegate = self
         
     }
+    
+    @objc func addAnnotation(_ gestureRecognizer:UIGestureRecognizer){
+        if gestureRecognizer.state == UIGestureRecognizerState.began {
+            let touchPoint = gestureRecognizer.location(in: mapView)
+            let newCoordinates = mapView.convert(touchPoint, to: mapView)
+            
+            mapView.clear()
+            destinationMarker.position = CLLocationCoordinate2D(latitude: CLLocationDegrees(newCoordinates.x), longitude: CLLocationDegrees(newCoordinates.y))
+            destinationMarker.title = "latitude:\(newCoordinates.x)"
+            destinationMarker.snippet = "longitude:\(newCoordinates.y)"
+            destinationMarker.map = mapView
+            mapView.layoutIfNeeded()
+        }
+    }
+    
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -42,26 +76,22 @@ class IMHMainViewController: UIViewController {
     
     func drawMarker(_ latitude:CLLocationDegrees, _ longitude: CLLocationDegrees) {
         mapView.clear()
-        destinationMarker = GMSMarker()
         destinationMarker.position = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
-        destinationMarker.title = "latitude:\(latitude) and longitude:\(longitude)"
-        destinationMarker.snippet = "latitude:\(latitude) and longitude:\(longitude)"
+        destinationMarker.title = "latitude:\(latitude)"
+        destinationMarker.snippet = "longitude:\(longitude)"
         destinationMarker.map = mapView
         mapView.layoutIfNeeded()
     }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
-    
-    
 }
-
 
 // MARK: - CLLocationManagerDelegate
 extension IMHMainViewController: CLLocationManagerDelegate,GMSMapViewDelegate {
     
+    //MARK:Location Access Request and update initial marker on current location
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
         if status == .authorizedWhenInUse {
             locationManager.startUpdatingLocation()
@@ -69,9 +99,10 @@ extension IMHMainViewController: CLLocationManagerDelegate,GMSMapViewDelegate {
             mapView.settings.myLocationButton = true
         }
     }
+    
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         if let location = locations.first {
-            mapView.camera = GMSCameraPosition(target: location.coordinate, zoom: 20, bearing: 0, viewingAngle: 0)
+            mapView.camera = GMSCameraPosition(target: location.coordinate, zoom: ZoomConstant, bearing: BearingConstant, viewingAngle: ViewingAngleConstant)
             self.drawMarker(location.coordinate.latitude, location.coordinate.longitude)
             locationManager.stopUpdatingLocation()
         }
@@ -80,26 +111,7 @@ extension IMHMainViewController: CLLocationManagerDelegate,GMSMapViewDelegate {
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
         print(error.localizedDescription)
     }
-    
-    func updateLocationoordinates(coordinates:CLLocationCoordinate2D) {
-        if destinationMarker == nil
-        {
-            destinationMarker = GMSMarker()
-            destinationMarker.position = coordinates
-            let image = UIImage(named:"map-marker-icon")
-            destinationMarker.icon = image
-            destinationMarker.map = self.mapView
-            destinationMarker.appearAnimation = GMSMarkerAnimation.none
-        }
-        else
-        {
-            CATransaction.begin()
-            CATransaction.setAnimationDuration(1.0)
-            destinationMarker.position =  coordinates
-            CATransaction.commit()
-        }
-    }
-    
+    //MARK:Map View Movement And Updation Of Center Marker
     // Camera change Position this methods will call every time
     func mapView(_ mapView: GMSMapView, didChange position: GMSCameraPosition) {
         print("didchangedcalled")
@@ -109,14 +121,41 @@ extension IMHMainViewController: CLLocationManagerDelegate,GMSMapViewDelegate {
         destinationCoordinate = destinationLocation.coordinate
         updateLocationoordinates(coordinates: destinationCoordinate!)
     }
+    //update location of existing marker on map
+    func updateLocationoordinates(coordinates:CLLocationCoordinate2D) {
+        CATransaction.begin()
+        CATransaction.setAnimationDuration(0.3)
+        destinationMarker.position =  coordinates
+        _ = self.mapView(mapView, didTap: destinationMarker)
+        CATransaction.commit()
+    }
     
     
+    //MARK:Tap and LongPress Methods
     func mapView(_ mapView: GMSMapView, didTap marker: GMSMarker) -> Bool {
         //you can handle zooming and camera update here
-        marker.title = "latitude: \(marker.position.latitude)"
-        marker.snippet = "longitude: \(marker.position.longitude)"
+        
+        CATransaction.begin()
+        CATransaction.setAnimationDuration(1.0)
+        marker.title = "latitude: \(destinationMarker.position.latitude)"
+        marker.snippet = "longitude: \(destinationMarker.position.longitude)"
+        mapView.selectedMarker?.snippet = marker.snippet
+        mapView.selectedMarker?.title = marker.title
         mapView.selectedMarker = marker
+        CATransaction.commit()
+        
         return true
     }
+    
+    func mapView(_ mapView: GMSMapView, didLongPressAt coordinate: CLLocationCoordinate2D) {
+        print(coordinate)
+//        mapView.clear()
+        destinationMarker.position = coordinate
+        destinationMarker.title = "latitude:\(coordinate.latitude)"
+        destinationMarker.snippet = "longitude:\(coordinate.longitude)"
+        destinationMarker.map = mapView
+        self.mapView.camera = GMSCameraPosition(target: coordinate, zoom: ZoomConstant, bearing: BearingConstant, viewingAngle: ViewingAngleConstant)
+    }
+    
 }
 

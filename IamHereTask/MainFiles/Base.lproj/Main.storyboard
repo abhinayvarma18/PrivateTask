@@ -19,7 +19,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="YnO-mK-iy8" customClass="GMSMapView">
-                                <rect key="frame" x="0.0" y="180" width="375" height="327"/>
+                                <rect key="frame" x="0.0" y="120" width="375" height="447"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
                         </subviews>
@@ -27,8 +27,8 @@
                         <constraints>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="YnO-mK-iy8" secondAttribute="trailing" id="2kL-NZ-UhR"/>
                             <constraint firstItem="YnO-mK-iy8" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="BHq-oH-WAm"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="YnO-mK-iy8" secondAttribute="bottom" constant="160" id="RlQ-DC-sCr"/>
-                            <constraint firstItem="YnO-mK-iy8" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="160" id="v4l-b4-hb5"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="YnO-mK-iy8" secondAttribute="bottom" constant="100" id="RlQ-DC-sCr"/>
+                            <constraint firstItem="YnO-mK-iy8" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="100" id="v4l-b4-hb5"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>

@@ -11,8 +11,8 @@ import UIKit
 let ZoomConstant:Float = 10.0
 let ViewingAngleConstant = 0.0
 let BearingConstant = 0.0
-let mapIconImageName = "map-marker-icon"
-
+let MapIconImageName = "map-marker-icon"
+let AnimationTime = 0.3
 
 
 //struct Colors {

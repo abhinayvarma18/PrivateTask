@@ -16,7 +16,7 @@ class IMHMainViewController: UIViewController {
     var locationManager = CLLocationManager()
     lazy var destinationMarker:GMSMarker = {
         let destination = GMSMarker()
-        let image = UIImage(named:mapIconImageName)
+        let image = UIImage(named:MapIconImageName)
         destination.icon = image
         destination.map = self.mapView
         destination.appearAnimation = GMSMarkerAnimation.none
@@ -55,7 +55,7 @@ class IMHMainViewController: UIViewController {
     
     //MARK:whenever draw function is called
     func updateDestinationMarker(_ coordinate:CLLocationCoordinate2D) {
-        mapView.clear()
+        //mapView.clear()
         destinationMarker.position = coordinate
         self.destinationMarker.title = "latitude:\(coordinate.latitude)"
         self.destinationMarker.snippet = "longitude:\(coordinate.longitude)"
@@ -104,9 +104,11 @@ extension IMHMainViewController: CLLocationManagerDelegate,GMSMapViewDelegate {
     //update location of existing marker on map
     func updateLocationoordinates(coordinates:CLLocationCoordinate2D) {
         CATransaction.begin()
-        CATransaction.setAnimationDuration(0.3)
+        CATransaction.setAnimationDuration(AnimationTime)
         destinationMarker.position =  coordinates
-        _ = self.mapView(mapView, didTap: destinationMarker)
+        if (self.mapView.selectedMarker?.isTappable ?? false) {
+            _ = self.mapView(mapView, didTap: destinationMarker)
+        }
         CATransaction.commit()
     }
     
@@ -115,14 +117,14 @@ extension IMHMainViewController: CLLocationManagerDelegate,GMSMapViewDelegate {
     func mapView(_ mapView: GMSMapView, didTap marker: GMSMarker) -> Bool {
         //you can handle zooming and camera update here
         
-        CATransaction.begin()
-        CATransaction.setAnimationDuration(1.0)
+        //CATransaction.begin()
+        //CATransaction.setAnimationDuration(1.0)
         marker.title = "latitude: \(destinationMarker.position.latitude)"
         marker.snippet = "longitude: \(destinationMarker.position.longitude)"
         mapView.selectedMarker?.snippet = marker.snippet
         mapView.selectedMarker?.title = marker.title
         mapView.selectedMarker = marker
-        CATransaction.commit()
+        //CATransaction.commit()
         
         return true
     }
@@ -131,7 +133,7 @@ extension IMHMainViewController: CLLocationManagerDelegate,GMSMapViewDelegate {
         print(coordinate)
 //        mapView.clear()
         CATransaction.begin()
-        CATransaction.setAnimationDuration(1.0)
+        CATransaction.setAnimationDuration(AnimationTime)
         destinationMarker.position = coordinate
         destinationMarker.title = "latitude:\(coordinate.latitude)"
         destinationMarker.snippet = "longitude:\(coordinate.longitude)"

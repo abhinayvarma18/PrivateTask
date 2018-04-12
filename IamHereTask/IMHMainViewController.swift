@@ -23,7 +23,6 @@ class IMHMainViewController: UIViewController {
       return destination
     }()
     var mapGesture:Bool = false
-    let uilgr = UILongPressGestureRecognizer(target: self, action: #selector(addAnnotation))
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -33,34 +32,10 @@ class IMHMainViewController: UIViewController {
         
         self.mapView.isUserInteractionEnabled = true
         
-        uilgr.minimumPressDuration = 2.0
-        
-        //self.mapView.add (uilgr)
-        
-        //IOS 9
-        self.mapView.addGestureRecognizer(uilgr)
-        
-        
-        
         //Location Manager code to fetch current location
         self.locationManager.delegate = self
         
     }
-    
-    @objc func addAnnotation(_ gestureRecognizer:UIGestureRecognizer){
-        if gestureRecognizer.state == UIGestureRecognizerState.began {
-            let touchPoint = gestureRecognizer.location(in: mapView)
-            let newCoordinates = mapView.convert(touchPoint, to: mapView)
-            
-            mapView.clear()
-            destinationMarker.position = CLLocationCoordinate2D(latitude: CLLocationDegrees(newCoordinates.x), longitude: CLLocationDegrees(newCoordinates.y))
-            destinationMarker.title = "latitude:\(newCoordinates.x)"
-            destinationMarker.snippet = "longitude:\(newCoordinates.y)"
-            destinationMarker.map = mapView
-            mapView.layoutIfNeeded()
-        }
-    }
-    
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -155,11 +130,14 @@ extension IMHMainViewController: CLLocationManagerDelegate,GMSMapViewDelegate {
     func mapView(_ mapView: GMSMapView, didLongPressAt coordinate: CLLocationCoordinate2D) {
         print(coordinate)
 //        mapView.clear()
+        CATransaction.begin()
+        CATransaction.setAnimationDuration(1.0)
         destinationMarker.position = coordinate
         destinationMarker.title = "latitude:\(coordinate.latitude)"
         destinationMarker.snippet = "longitude:\(coordinate.longitude)"
         destinationMarker.map = mapView
         self.mapView.camera = GMSCameraPosition(target: coordinate, zoom: ZoomConstant, bearing: BearingConstant, viewingAngle: ViewingAngleConstant)
+        CATransaction.commit()
     }
     
 }

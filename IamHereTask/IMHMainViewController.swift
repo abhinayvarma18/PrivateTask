@@ -10,7 +10,7 @@ import UIKit
 import CoreLocation
 import GoogleMaps
 import GooglePlaces
-
+/////roundf( use
 class IMHMainViewController: UIViewController {
     @IBOutlet weak var mapView: GMSMapView!
     var locationManager = CLLocationManager()
@@ -75,11 +75,16 @@ class IMHMainViewController: UIViewController {
     }
     
     func drawMarker(_ latitude:CLLocationDegrees, _ longitude: CLLocationDegrees) {
+        self.updateDestinationMarker(CLLocationCoordinate2D(latitude: latitude, longitude: longitude))
+    }
+    
+    //MARK:whenever draw function is called
+    func updateDestinationMarker(_ coordinate:CLLocationCoordinate2D) {
         mapView.clear()
-        destinationMarker.position = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
-        destinationMarker.title = "latitude:\(latitude)"
-        destinationMarker.snippet = "longitude:\(longitude)"
-        destinationMarker.map = mapView
+        destinationMarker.position = coordinate
+        self.destinationMarker.title = "latitude:\(coordinate.latitude)"
+        self.destinationMarker.snippet = "longitude:\(coordinate.longitude)"
+        self.destinationMarker.map = mapView
         mapView.layoutIfNeeded()
     }
     

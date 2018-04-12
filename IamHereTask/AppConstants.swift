@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-let ZoomConstant:Float = 17.0
+let ZoomConstant:Float = 10.0
 let ViewingAngleConstant = 0.0
 let BearingConstant = 0.0
 let mapIconImageName = "map-marker-icon"
